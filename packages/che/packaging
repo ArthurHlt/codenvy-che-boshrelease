@@ -1,0 +1,6 @@
+set -e
+
+che_version=4.0.0-RC8
+
+
+cp -r ${BOSH_COMPILE_TARGET}/che ${BOSH_INSTALL_TARGET}

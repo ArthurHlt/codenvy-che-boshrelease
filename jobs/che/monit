@@ -1,0 +1,5 @@
+check process che
+  with pidfile /var/vcap/sys/run/che/che.pid
+  start program "/var/vcap/jobs/che/bin/monit_debugger che_ctl '/var/vcap/jobs/che/bin/ctl start'"
+  stop program "/var/vcap/jobs/che/bin/monit_debugger che_ctl '/var/vcap/jobs/che/bin/ctl stop'"
+  group vcap

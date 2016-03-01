@@ -9,7 +9,7 @@ meta:
     version: latest
 
 jobs:
-  - name: just_install_packages
+  - name: che_z1
     networks:
       - name: codenvy_che1
     persistent_disk: (( grab meta.persistent_disk ))

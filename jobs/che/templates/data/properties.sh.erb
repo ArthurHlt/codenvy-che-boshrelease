@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# job template binding variables
+
+# job name & index of this VM within cluster
+# e.g. JOB_NAME=redis, JOB_INDEX=0
+export NAME='<%= name %>'
+export JOB_INDEX=<%= index %>
+# full job name, like redis/0 or webapp/3
+export JOB_FULL="$NAME/$JOB_INDEX"
+export DOCKER_MACHINE_HOST=<%= docker.machine.host%>
+<% if defined?(github.clientId) &&  defined?(github.clientSecret) %>
+export oauth_github_clientid-id=<%= github.clientId%>
+export oauth_github_clientsecret=<%= github.clientSecret%>
+export oauth_github_authuri=https://github.com/login/oauth/authorize
+export oauth_github_tokenuri=https://github.com/login/oauth/access_token
+<% end %>

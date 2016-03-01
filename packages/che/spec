@@ -1,0 +1,12 @@
+---
+name: che
+dependencies:
+- java-common
+- maven
+- openjdk
+files:
+- che/**/*
+- openjdk/*
+- maven/*
+- common/setup-java-prepackaging.sh
+

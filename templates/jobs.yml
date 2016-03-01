@@ -7,9 +7,9 @@ update:
   serial: false
 
 jobs:
-  - name: just_install_packages
+  - name: che_z1
     templates:
-    - name: just_install_packages
+    - name: che
       release: codenvy-che
     instances: 1
     persistent_disk: 0
