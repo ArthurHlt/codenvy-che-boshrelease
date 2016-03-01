@@ -1,0 +1,3 @@
+[submodule "src/che"]
+	path = src/che
+	url = https://github.com/eclipse/che.git

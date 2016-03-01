@@ -1,0 +1,5 @@
+---
+name: openjdk
+dependencies: []
+files:
+- openjdk/jdk-8u72-ea-bin-b02-linux-x64-13_oct_2015.tar.gz

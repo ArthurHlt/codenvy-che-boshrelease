@@ -1,0 +1,12 @@
+## JDK 8 packaging script
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+JAVA_VERSION=jdk1.8.0_72
+JAVA_TAR_BALL=jdk-8u72-ea-bin-b02-linux-x64-13_oct_2015.tar.gz
+cd ${BOSH_INSTALL_TARGET}
+
+tar zxvf ${BOSH_COMPILE_TARGET}/openjdk/${JAVA_TAR_BALL}
+
+mv ${JAVA_VERSION}/* .
+rmdir ${JAVA_VERSION}
