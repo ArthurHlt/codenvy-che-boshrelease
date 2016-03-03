@@ -1,0 +1,90 @@
+---
+meta:
+  environment: codenvy-che-warden
+
+  stemcell:
+    name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
+    version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 50
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+
+jobs:
+  - name: che_z1
+    networks:
+      - name: codenvy_che1
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.codenvy_che1.subnets.codenvy_che1.static.0 ))
+    instances: 1
+    resource_pool: small_z1
+    persistent_disk: 65536
+    properties:
+      env:
+        http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+        https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+      che:
+        docker:
+          host: tcp://127.0.0.1:2376
+      docker:
+        tcp_address: 127.0.0.1
+        tcp_port: 2376
+
+
+compilation:
+  cloud_properties:
+    cpu: 1
+    disk: 8096
+    ram: 1048
+  network: codenvy_che1
+  reuse_compilation_vms: true
+  workers: 1
+
+
+resource_pools:
+- cloud_properties:
+    cpu: 2
+    disk: 40240
+    ram: 1096
+  name: small_z1
+  network: codenvy_che1
+  size: 1
+  stemcell:
+    name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
+    version: latest
+
+
+networks:
+- name: codenvy_che1
+  type: manual
+  subnets:
+    - range: 10.203.6.0/23
+      name: codenvy_che1
+      # Range =>
+      #    Address:   10.203.6.0
+      #    Netmask:   255.255.254.0 = 23
+      #    Wildcard:  0.0.1.255
+      #    =>
+      #      Network:   10.203.6.0/23
+      #      Broadcast: 10.203.7.255
+      #      HostMin:   10.203.6.1
+      #      HostMax:   10.203.7.254
+      #      Hosts/Net: 510
+      # Reserved is the ones that bosh should not be using
+      reserved:
+      - 10.203.6.1-10.203.6.255
+      - 10.203.7.0-10.203.7.50
+      - 10.203.7.60-10.203.7.253
+      # Static IP pool that can be consummed by jobs when explictly assigned to one.
+      static:
+      - &discovery_static_ip 10.203.7.51
+
+      # Implicit dynamic Ips for jobs including compilation jobs : 10.203.6.109
+      gateway: 10.203.7.254
+      cloud_properties:
+        # The bosh is installed on VPN PFS (on the Apps-Serv vDC that its microbosh is configured to target)
+        name: NET_APPS_SERV
+

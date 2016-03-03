@@ -12,3 +12,7 @@ director_uuid: PLACEHOLDER-DIRECTOR-UUID
 releases:
   - name: codenvy-che
     version: latest
+  - name: docker
+    version: latest
+  - name: nginx
+    version: latest

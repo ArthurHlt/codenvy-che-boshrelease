@@ -11,8 +11,8 @@ fail() {
 	echo >&2 $*
 }
 
-if [[ "$infrastructure" != "aws-ec2" && "$infrastructure" != "warden" ]] ; then
-  fail "usage: ./make_manifest <aws-ec2|warden>"
+if [[ "$infrastructure" != "aws-ec2" && "$infrastructure" != "warden" && "$infrastructure" != "vcloud" && "$infrastructure" != "openstack" && "$infrastructure" != "cloudstack" ]] ; then
+  fail "usage: ./make_manifest <aws-ec2|warden|vcloud|openstack>"
   exit 1
 fi
 
@@ -20,6 +20,9 @@ case "${infrastructure}/${STEMCELL_OS}" in
   (warden/*)       STEMCELL_URL="https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent" ;;
   (aws-ec2/ubuntu) STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent" ;;
   (aws-ec2/centos) STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-centos-7-go_agent" ;;
+  (vcloud/*) STEMCELL_URL="https://bosh.io/d/stemcells/bosh-vcloud-esxi-ubuntu-trusty-go_agent" ;;
+  (openstack/*) STEMCELL_URL="http://bosh.io/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent" ;;
+  (cloudstack/*) STEMCELL_URL="http://bosh.io/stemcells/bosh-cloudstack-kvm-ubuntu-trusty-go_agent" ;;
   (*)
     fail "Invalid infrastructure or OS specified."
     exit 1
@@ -41,6 +44,21 @@ fi
 
 if [[ $infrastructure = "aws-ec2" && ${DIRECTOR_CPI} != "aws" ]]; then
   fail "Not targeting an AWS BOSH. Please make sure you have run 'bosh target' and are targeting an AWS BOSH before running this script."
+  exit 1
+fi
+
+if [[ $infrastructure = "vcloud" && ${DIRECTOR_CPI} != "vcloud" ]]; then
+  fail "Not targeting an VCLOUD BOSH. Please make sure you have run 'bosh target' and are targeting an VCLOUD BOSH before running this script."
+  exit 1
+fi
+
+if [[ $infrastructure = "openstack" && ${DIRECTOR_CPI} != "openstack" ]]; then
+  fail "Not targeting an OPENSTACK BOSH. Please make sure you have run 'bosh target' and are targeting an OPENSTACK BOSH before running this script."
+  exit 1
+fi
+
+if [[ $infrastructure = "cloudstack" && ${DIRECTOR_CPI} != "cloudstack" ]]; then
+  fail "Not targeting an OPENSTACK BOSH. Please make sure you have run 'bosh target' and are targeting an OPENSTACK BOSH before running this script."
   exit 1
 fi
 

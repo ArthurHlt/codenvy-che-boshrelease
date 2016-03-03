@@ -9,6 +9,8 @@ update:
 jobs:
   - name: che_z1
     templates:
+    - name: docker
+      release: docker
     - name: che
       release: codenvy-che
     instances: 1

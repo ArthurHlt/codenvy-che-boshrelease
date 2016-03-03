@@ -2,15 +2,15 @@ set -e
 
 . common/setup-java-prepackaging.sh
 
-
-
+che_version=4.0.0-RC8
+export GIT_DIR=${BUILD_DIR}/che
 cd ${BUILD_DIR}/che
-mvn -X -B -U -e clean install -DskipTests=true -Pskip-git-info  --settings settings.xml 
-cp -R assembly/assembly-main/target/eclipse-che-${che_version}/eclipse-che-${che_version}  ${BUILD_DIR}/che
+mvn -X -B -U -e clean install -DskipTests=true -Pskip-git-info
+cp -R assembly/assembly-main/target/eclipse-che-${che_version}/eclipse-che-${che_version} ${BUILD_DIR}/finalche
 
 
 cd ${BUILD_DIR}
 rm -rf che
-
+mv finalche che
 cleanup_java
 

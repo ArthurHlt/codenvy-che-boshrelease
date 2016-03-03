@@ -6,9 +6,16 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/che/helpers/ctl_setup.sh 'che'
 
-export PORT=${PORT:-5000}
+export PORT=${PORT:-8080}
 export LANG=en_US.UTF-8
 export CHE_LOGS_DIR=$LOG_DIR/$JOB_NAME.stdout.log
+
+export JAVA_HOME=/var/vcap/packages/openjdk
+export CHE_LOGS_DIR="$LOG_DIR"
+# TODO: untied to docker boshrelease
+ln -s /var/vcap/packages/docker/bin/docker /usr/bin/docker
+
+
 case $1 in
 
   start)
@@ -17,7 +24,8 @@ case $1 in
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap $JAVA_HOME/bin/java -jar /var/vcap/packages/elpaaso-sandbox-service/elpaaso-sandbox-service.jar \
+    #exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh --skip:uid \
+    /var/vcap/packages/che/che/bin/che.sh --skip:uid \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 

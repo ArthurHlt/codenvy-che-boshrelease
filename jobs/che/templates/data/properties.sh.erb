@@ -8,10 +8,10 @@ export NAME='<%= name %>'
 export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
-export DOCKER_MACHINE_HOST=<%= docker.machine.host%>
-<% if defined?(github.clientId) &&  defined?(github.clientSecret) %>
-export oauth_github_clientid-id=<%= github.clientId%>
-export oauth_github_clientsecret=<%= github.clientSecret%>
+export DOCKER_HOST=<%= properties.che.docker.host%>
+<% if defined?(properties.che.github.clientId) &&  defined?(properties.che.github.clientSecret) %>
+export oauth_github_clientid-id=<%= properties.che.github.clientId%>
+export oauth_github_clientsecret=<%= properties.che.github.clientSecret%>
 export oauth_github_authuri=https://github.com/login/oauth/authorize
 export oauth_github_tokenuri=https://github.com/login/oauth/access_token
 <% end %>

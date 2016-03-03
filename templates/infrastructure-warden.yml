@@ -16,6 +16,11 @@ jobs:
   - name: che_z1
     networks:
       - name: codenvy_che1
+    properties:
+      che:
+        docker:
+          host: localhost:2376
+
 
 compilation:
   cloud_properties:
