@@ -1,0 +1,38 @@
+---
+packages:
+- name: che
+  version: c0b05f8ffaa2765c97578d2b63f38ca6a2869a33
+  fingerprint: c0b05f8ffaa2765c97578d2b63f38ca6a2869a33
+  sha1: 12df38ed46f5e159dc68daf1fa0ae270d733d529
+  dependencies:
+  - java-common
+  - maven
+  - openjdk
+- name: java-common
+  version: 018744938b5a691527c626963211f4ba4b5772bf
+  fingerprint: 018744938b5a691527c626963211f4ba4b5772bf
+  sha1: 13f369c71b60645533b5fafe3a3205ff260c0b0b
+  dependencies: []
+- name: maven
+  version: 5eb61d98d6084960f57f4aa26ac93ca17f4a7031
+  fingerprint: 5eb61d98d6084960f57f4aa26ac93ca17f4a7031
+  sha1: eedab7d24af0b683e7b70f3d28f67ed9e52b98d9
+  dependencies: []
+- name: openjdk
+  version: f015aa030fbe7fab04b1c029618c4bfde1f3c01b
+  fingerprint: f015aa030fbe7fab04b1c029618c4bfde1f3c01b
+  sha1: 1955261d03c2d62013539bc8641d9fe35768543a
+  dependencies: []
+jobs:
+- name: che
+  version: f0dfeb65548f159588fcb7b7232777a0c3c0d181
+  fingerprint: f0dfeb65548f159588fcb7b7232777a0c3c0d181
+  sha1: 9fc94c248006dc61f7365420639336844bc29504
+license:
+  version: e510591596819821141748aa9a0de88d9b5c381f
+  fingerprint: e510591596819821141748aa9a0de88d9b5c381f
+  sha1: a42ab1cb816a9e921ab7b47e3ec5c562f339a10c
+commit_hash: 58a28488
+uncommitted_changes: true
+name: codenvy-che
+version: '1'
