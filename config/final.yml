@@ -4,4 +4,5 @@ blobstore:
   options:
     bucket_name: eclipse-che-boshrelease
     region: eu-west-1
+    endpoint: https://s3-eu-west-1.amazonaws.com
 final_name: eclipse-che
