@@ -23,9 +23,6 @@ jobs:
     resource_pool: small_z1
     persistent_disk: 65536
     properties:
-      env:
-        http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
-        https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
       che:
         docker:
           host: tcp://127.0.0.1:2376

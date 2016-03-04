@@ -19,7 +19,10 @@ jobs:
     properties:
       che:
         docker:
-          host: localhost:2376
+          host: tcp://127.0.0.1:2376
+      docker:
+        tcp_address: 127.0.0.1
+        tcp_port: 2376
 
 
 compilation:

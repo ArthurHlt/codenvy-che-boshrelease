@@ -33,7 +33,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     #exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh --skip:uid \
-    /var/vcap/packages/che/che/bin/che.sh --skip:uid \
+    /var/vcap/packages/che/che/bin/che.sh --skip:uid -r:${CHE_EXTERNAL_IP} \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 

@@ -13,6 +13,13 @@ jobs:
     networks:
       - name: codenvy_che1
     persistent_disk: (( grab meta.persistent_disk ))
+    properties:
+      che:
+        docker:
+          host: tcp://127.0.0.1:2376
+      docker:
+        tcp_address: 127.0.0.1
+        tcp_port: 2376
 
 compilation:
   cloud_properties:
