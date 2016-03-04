@@ -12,8 +12,16 @@ export CHE_LOGS_DIR=$LOG_DIR/$JOB_NAME.stdout.log
 
 export JAVA_HOME=/var/vcap/packages/openjdk
 export CHE_LOGS_DIR="$LOG_DIR"
+export CHE_LOCAL_CONF_DIR="/var/vcap/jobs/che/data"
 # TODO: untied to docker boshrelease
 ln -s /var/vcap/packages/docker/bin/docker /usr/bin/docker
+
+ensure_no_more_tomcat() {
+    for java_pid in $(ps -ef |grep java| grep tomcat |grep -Po '\-DPID=\K[^ ]+'); do
+      echo "[che-kill-tomcat] Found leftover Java process - killing `ps -fp $java_pid`"
+      kill -9 $java_pid
+    done
+}
 
 
 case $1 in
@@ -33,7 +41,7 @@ case $1 in
 
   stop)
     kill_and_wait $PIDFILE
-
+    ensure_no_more_tomcat
     ;;
   *)
     echo "Usage: che_ctl {start|stop}"

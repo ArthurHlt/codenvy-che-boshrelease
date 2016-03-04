@@ -9,6 +9,7 @@ export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
 export DOCKER_HOST=<%= properties.che.docker.host%>
+export CHE_EXTERNAL_IP=<%= spec.networks.codenvy_che1.ip %>
 <% if defined?(properties.che.github.clientId) &&  defined?(properties.che.github.clientSecret) %>
 export oauth_github_clientid-id=<%= properties.che.github.clientId%>
 export oauth_github_clientsecret=<%= properties.che.github.clientSecret%>

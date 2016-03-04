@@ -48,7 +48,7 @@ resource_pools:
 - cloud_properties:
     cpu: 2
     disk: 40240
-    ram: 1096
+    ram: 4096
   name: small_z1
   network: codenvy_che1
   size: 1
