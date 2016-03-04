@@ -15,10 +15,10 @@ update:
 jobs:
   - name: che_z1
     networks:
-      - name: codenvy_che1
+      - name: eclipse_che1
         default: [dns, gateway]
         static_ips:
-          - (( grab networks.codenvy_che1.subnets.codenvy_che1.static.0 ))
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
     instances: 1
     resource_pool: small_z1
     persistent_disk: 65536
@@ -36,7 +36,7 @@ compilation:
     cpu: 1
     disk: 8096
     ram: 1048
-  network: codenvy_che1
+  network: eclipse_che1
   reuse_compilation_vms: true
   workers: 1
 
@@ -47,7 +47,7 @@ resource_pools:
     disk: 40240
     ram: 4096
   name: small_z1
-  network: codenvy_che1
+  network: eclipse_che1
   size: 1
   stemcell:
     name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
@@ -55,11 +55,11 @@ resource_pools:
 
 
 networks:
-- name: codenvy_che1
+- name: eclipse_che1
   type: manual
   subnets:
     - range: 10.203.6.0/23
-      name: codenvy_che1
+      name: eclipse_che1
       # Range =>
       #    Address:   10.203.6.0
       #    Netmask:   255.255.254.0 = 23

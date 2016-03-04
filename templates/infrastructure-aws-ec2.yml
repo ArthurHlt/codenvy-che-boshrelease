@@ -11,7 +11,7 @@ meta:
 jobs:
   - name: che_z1
     networks:
-      - name: codenvy_che1
+      - name: eclipse_che1
     persistent_disk: (( grab meta.persistent_disk ))
     properties:
       che:
@@ -34,7 +34,7 @@ networks:
   - name: floating
     type: vip
     cloud_properties: {}
-  - name: codenvy_che1
+  - name: eclipse_che1
     type: dynamic
     cloud_properties:
       security_groups: (( grab meta.security_groups ))

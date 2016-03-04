@@ -1,4 +1,4 @@
-# BOSH Release for codenvy-che
+# BOSH Release for eclipse-che
 
 ## Usage
 
@@ -6,9 +6,9 @@ To use this bosh release, first upload it to your bosh:
 
 ```
 bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/codenvy-che-boshrelease.git
-cd codenvy-che-boshrelease
-bosh upload release releases/codenvy-che/codenvy-che-1.yml
+git clone https://github.com/cloudfoundry-community/eclipse-che-boshrelease.git
+cd eclipse-che-boshrelease
+bosh upload release releases/eclipse-che/eclipse-che-1.yml
 ```
 
 For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
@@ -34,14 +34,14 @@ Create a file `my-networking.yml`:
 ``` yaml
 ---
 networks:
-  - name: codenvy-che1
+  - name: eclipse-che1
     type: dynamic
     cloud_properties:
       security_groups:
-        - codenvy-che
+        - eclipse-che
 ```
 
-Where `- codenvy-che` means you wish to use an existing security group called `codenvy-che`.
+Where `- eclipse-che` means you wish to use an existing security group called `eclipse-che`.
 
 You now suffix this file path to the `make_manifest` command:
 
