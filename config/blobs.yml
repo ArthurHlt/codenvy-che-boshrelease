@@ -7,3 +7,19 @@ openjdk/jdk-8u72-ea-bin-b02-linux-x64-13_oct_2015.tar.gz:
   object_id: c6075571-2a5a-45bc-bb0f-aae1d88d0cf7
   sha: dc75d18b76b6a7666d738f503dc44fae8483e37f
   size: 126378270
+docker/aufs-tools_20120411-3_amd64.deb:
+  object_id: 1f23d641-040d-4bf9-82d3-79842feea2f3
+  sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
+  size: 91762
+docker/autoconf-2.69.tar.gz:
+  object_id: 501dc392-725a-4b9e-a07c-43e0be7d90d0
+  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
+  size: 1927468
+docker/bridge-utils-1.5.tar.gz:
+  object_id: 865e7b79-c83d-4f1a-86a0-5bb760be9cac
+  sha: 1f71b6f22f5d2b6d21e146f4ac20820ad42e58ee
+  size: 33472
+docker/docker-1.10.2:
+  object_id: 6b7b4c5d-6fb4-40de-aed5-dea8e6f7d703
+  sha: 7cd5c77dffa05a9d6b57d0fd9da6f40f6c9044bf
+  size: 34892323
