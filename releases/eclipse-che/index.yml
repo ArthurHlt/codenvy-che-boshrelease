@@ -4,4 +4,6 @@ builds:
     version: '1'
   e3d1980e-db62-485e-b922-86e1279e52a7:
     version: '2'
+  14f702bf-edfe-4dcb-86f1-7fb6cbcf9e2d:
+    version: '3'
 format-version: '2'
