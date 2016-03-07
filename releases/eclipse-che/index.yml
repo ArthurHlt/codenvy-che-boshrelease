@@ -2,4 +2,6 @@
 builds:
   48bdfeeb-80b9-4809-960c-0d943fcca210:
     version: '1'
+  e3d1980e-db62-485e-b922-86e1279e52a7:
+    version: '2'
 format-version: '2'
