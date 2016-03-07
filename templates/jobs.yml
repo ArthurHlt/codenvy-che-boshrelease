@@ -9,15 +9,20 @@ update:
 jobs:
   - name: che_z1
     templates:
-    - name: docker
-      release: docker
     - name: che
-      release: codenvy-che
+      release: eclipse-che
     instances: 1
     persistent_disk: 0
     resource_pool: small_z1
     networks: (( param "Please configure the networks for this job" ))
-
+  - name: che_docker_z1
+    templates:
+    - name: docker
+      release: docker
+    instances: 1
+    persistent_disk: 0
+    resource_pool: small_z1
+    networks: (( param "Please configure the networks for this job" ))
 networks: (( param "Please configure the global network definitions for this Deployment" ))
 
 properties: {}

@@ -1,0 +1,38 @@
+---
+packages:
+- name: che
+  version: c0b05f8ffaa2765c97578d2b63f38ca6a2869a33
+  fingerprint: c0b05f8ffaa2765c97578d2b63f38ca6a2869a33
+  sha1: dcfa2b5fd20f0500c122a6f0a460b7e03a1a76f5
+  dependencies:
+  - java-common
+  - maven
+  - openjdk
+- name: java-common
+  version: 018744938b5a691527c626963211f4ba4b5772bf
+  fingerprint: 018744938b5a691527c626963211f4ba4b5772bf
+  sha1: 13f369c71b60645533b5fafe3a3205ff260c0b0b
+  dependencies: []
+- name: maven
+  version: 5eb61d98d6084960f57f4aa26ac93ca17f4a7031
+  fingerprint: 5eb61d98d6084960f57f4aa26ac93ca17f4a7031
+  sha1: f2e1f092ed9e3f6a28418c739a301e0065a917c9
+  dependencies: []
+- name: openjdk
+  version: f015aa030fbe7fab04b1c029618c4bfde1f3c01b
+  fingerprint: f015aa030fbe7fab04b1c029618c4bfde1f3c01b
+  sha1: 3c4ed15b1a2cb0b83d336e9f56a1b875cc0925ae
+  dependencies: []
+jobs:
+- name: che
+  version: e63e10fd6e36047edeaab60e4809f91afd4affdf
+  fingerprint: e63e10fd6e36047edeaab60e4809f91afd4affdf
+  sha1: d34fdf2e46b96f6a693a64290b06936c1f03cff8
+license:
+  version: e510591596819821141748aa9a0de88d9b5c381f
+  fingerprint: e510591596819821141748aa9a0de88d9b5c381f
+  sha1: a42ab1cb816a9e921ab7b47e3ec5c562f339a10c
+commit_hash: 20df2a1c
+uncommitted_changes: true
+name: eclipse-che
+version: '2'

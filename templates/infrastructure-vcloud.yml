@@ -1,6 +1,6 @@
 ---
 meta:
-  environment: codenvy-che-warden
+  environment: eclipse-che-warden
 
   stemcell:
     name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
@@ -13,6 +13,22 @@ update:
   update_watch_time: 1000-30000
 
 jobs:
+  - name: che_docker_z1
+    networks:
+      - name: eclipse_che1
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
+    instances: 1
+    resource_pool: small_z1
+    persistent_disk: 65536
+    properties:
+      env:
+        http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+        https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+      docker:
+        tcp_address: 0.0.0.0
+        tcp_port: 2376
   - name: che_z1
     networks:
       - name: eclipse_che1
@@ -25,11 +41,7 @@ jobs:
     properties:
       che:
         docker:
-          host: tcp://127.0.0.1:2376
-      docker:
-        tcp_address: 127.0.0.1
-        tcp_port: 2376
-
+          host: (( concat "tcp://" networks.eclipse_che1.subnets.eclipse_che1.static.1 ":2376" ))
 
 compilation:
   cloud_properties:
@@ -48,7 +60,7 @@ resource_pools:
     ram: 4096
   name: small_z1
   network: eclipse_che1
-  size: 1
+  size: 2
   stemcell:
     name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
     version: latest
@@ -75,9 +87,10 @@ networks:
       - 10.203.6.1-10.203.6.255
       - 10.203.7.0-10.203.7.50
       - 10.203.7.60-10.203.7.253
-      # Static IP pool that can be consummed by jobs when explictly assigned to one.
+      # Static IP pool that can be consumed by jobs when explicitly assigned to one.
       static:
       - &discovery_static_ip 10.203.7.51
+      - &discovery_static_ip 10.203.7.52
 
       # Implicit dynamic Ips for jobs including compilation jobs : 10.203.6.109
       gateway: 10.203.7.254

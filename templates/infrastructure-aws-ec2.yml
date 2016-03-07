@@ -9,17 +9,32 @@ meta:
     version: latest
 
 jobs:
+  - name: che_docker_z1
+    networks:
+      - name: eclipse_che1
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
+    instances: 1
+    resource_pool: small_z1
+    persistent_disk: 65536
+    properties:
+      docker:
+        tcp_address: 0.0.0.0
+        tcp_port: 2376
   - name: che_z1
     networks:
       - name: eclipse_che1
-    persistent_disk: (( grab meta.persistent_disk ))
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
+    instances: 1
+    resource_pool: small_z1
+    persistent_disk: 65536
     properties:
       che:
         docker:
-          host: tcp://127.0.0.1:2376
-      docker:
-        tcp_address: 127.0.0.1
-        tcp_port: 2376
+          host: (( concat "tcp://" networks.eclipse_che1.subnets.eclipse_che1.static.1 ":2376" ))
 
 compilation:
   cloud_properties:

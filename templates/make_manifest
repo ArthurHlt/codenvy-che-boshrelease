@@ -2,7 +2,7 @@
 
 set -e
 
-template_prefix="codenvy-che"
+template_prefix="eclipse-che"
 STEMCELL_OS=${STEMCELL_OS:-ubuntu}
 
 infrastructure=$1
