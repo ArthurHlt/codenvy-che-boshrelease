@@ -19,7 +19,7 @@ docker/bridge-utils-1.5.tar.gz:
   object_id: 865e7b79-c83d-4f1a-86a0-5bb760be9cac
   sha: 1f71b6f22f5d2b6d21e146f4ac20820ad42e58ee
   size: 33472
-docker/docker-1.10.2:
-  object_id: 6b7b4c5d-6fb4-40de-aed5-dea8e6f7d703
-  sha: 7cd5c77dffa05a9d6b57d0fd9da6f40f6c9044bf
-  size: 34892323
+docker/docker-1.9.0:
+  object_id: 94c95434-a2f1-410d-90f3-e9092b3fe419
+  sha: bf0d17521cc01324029fa9679f66d0066e09b8c6
+  size: 30186828

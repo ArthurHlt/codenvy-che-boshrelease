@@ -8,20 +8,21 @@ export NAME='<%= name %>'
 export JOB_INDEX=<%= index %>
 # full job name, like redis/0 or webapp/3
 export JOB_FULL="$NAME/$JOB_INDEX"
-export DOCKER_HOST=<%= properties.che.docker.host%>
-export CHE_EXTERNAL_IP=<%= spec.networks.eclipse_che1.ip %>
+export DOCKER_HOST_IP=<%= properties.che.docker.host.ip%>
+export DOCKER_HOST_PORT=<%= properties.che.docker.host.port%>
+export DOCKER_HOST=tcp://${DOCKER_HOST_IP}:${DOCKER_HOST_PORT}
+<% if properties.che.external_ip %>
+export CHE_EXTERNAL_IP=<%= properties.che.external_ip %>
+<% else %>
+export CHE_EXTERNAL_IP=<%= spec.networks.send(spec.networks.methods(false).first).ip %>
+<% end %>
 <% if defined?(properties.che.docker.registry.host) %>
 export CHE_REGISTRY_HOST=<%= properties.che.docker.registry.host %>
 <% end %>
 
-<% if defined?(properties.secure) && properties.secure %>
+<% if properties.che.secure %>
 export CHE_EXTERNAL_SCHEME=https
 <% else %>
 export CHE_EXTERNAL_SCHEME=http
 <% end %>
-<% if defined?(properties.che.github.clientId) &&  defined?(properties.che.github.clientSecret) %>
-export oauth_github_clientid-id=<%= properties.che.github.clientId%>
-export oauth_github_clientsecret=<%= properties.che.github.clientSecret%>
-export oauth_github_authuri=https://github.com/login/oauth/authorize
-export oauth_github_tokenuri=https://github.com/login/oauth/access_token
-<% end %>
+

@@ -1,0 +1,5 @@
+check process che-inject
+  with pidfile /var/vcap/sys/run/che-inject/che-inject.pid
+  start program "/var/vcap/jobs/che-inject/bin/monit_debugger che-inject_ctl '/var/vcap/jobs/che-inject/bin/ctl start'"
+  stop program "/var/vcap/jobs/che-inject/bin/monit_debugger che-inject_ctl '/var/vcap/jobs/che-inject/bin/ctl stop'"
+  group vcap

@@ -19,6 +19,8 @@ jobs:
     templates:
     - name: docker
       release: docker
+    - name: che-inject
+      release: eclipse-che
     instances: 1
     persistent_disk: 0
     resource_pool: small_z1

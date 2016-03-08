@@ -13,11 +13,32 @@ export CHE_LOGS_DIR=$LOG_DIR/$JOB_NAME.stdout.log
 export JAVA_HOME=/var/vcap/packages/openjdk
 export CHE_LOGS_DIR="$LOG_DIR"
 export CHE_LOCAL_CONF_DIR="/var/vcap/jobs/che/data"
-# TODO: untied to docker boshrelease
-ln -s /var/vcap/packages/docker/bin/docker /usr/bin/docker
+
+ln -sf /var/vcap/packages/docker-che/bin/docker /usr/bin/docker
 
 mkdir -p /var/vcap/store/workspaces
 mkdir -p /var/vcap/store/temp/local-storage
+LINUX_USER=$(whoami)
+LINUX_GROUPS=$(groups "${LINUX_USER}")
+LINUX_UID=$(id -u "${LINUX_USER}")
+
+
+if echo "${LINUX_GROUPS}" | grep "docker" &>/dev/null; then
+    echo "Already in docker group"
+else
+    groupadd docker
+    usermod -a -G docker vcap
+fi
+
+
+chown -R vcap:vcap /var/vcap/store/workspaces
+chown -R vcap:vcap /var/vcap/store/temp/local-storage
+chown -R vcap:vcap /var/vcap/packages/che/che
+
+if [ ! -f /var/vcap/store/lib/ws-agent.zip ]; then
+    mkdir -p /var/vcap/store/lib
+    cp /var/vcap/packages/che/che/lib/ws-agent.zip /var/vcap/store/lib/ws-agent.zip
+fi
 
 ensure_no_more_tomcat() {
     for java_pid in $(ps -ef |grep java| grep tomcat |grep -Po '\-DPID=\K[^ ]+'); do
@@ -36,7 +57,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     #exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh --skip:uid \
-    /var/vcap/packages/che/che/bin/che.sh --skip:uid -r:${CHE_EXTERNAL_IP} \
+    exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh -r:${DOCKER_HOST_IP} \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 

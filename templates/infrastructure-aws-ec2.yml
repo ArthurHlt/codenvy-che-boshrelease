@@ -34,7 +34,9 @@ jobs:
     properties:
       che:
         docker:
-          host: (( concat "tcp://" networks.eclipse_che1.subnets.eclipse_che1.static.1 ":2376" ))
+          host:
+            ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
+            port: 2376
 
 compilation:
   cloud_properties:

@@ -4,6 +4,7 @@ packages:
 - java-common
 - openjdk
 - che
+- docker-che
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
@@ -13,9 +14,15 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-  che.docker.host:
+  che.docker.host.ip:
     description:
       The IP address of the Docker host.
+  che.docker.host.port:
+    description:
+      The port number of the Docker host.
+  che.external_ip:
+    description:
+      Specify on what ip che is available. By default, if it's not specified, release will choose the first ip of the network.
   che.docker.registry.host:
     description:
       (Optional) The IP address of the Docker registry host.
