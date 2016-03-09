@@ -17,6 +17,10 @@ case $1 in
     if [ ! -f /var/vcap/store/lib/ws-agent.zip ]; then
         mkdir -p /var/vcap/store/lib
         cp /var/vcap/packages/che/che/lib/ws-agent.zip /var/vcap/store/lib/ws-agent.zip
+        cp -R /var/vcap/packages/che/che/lib/terminal /var/vcap/store/lib/terminal
+        cp -R /var/vcap/packages/che/che/template_projects /var/vcap/store/template_projects
+        chown -R vcap:vcap /var/vcap/store/lib
+        chown -R vcap:vcap /var/vcap/store/template_projects
         rm -Rf /var/vcap/packages/che/che
     fi
     while true; do
