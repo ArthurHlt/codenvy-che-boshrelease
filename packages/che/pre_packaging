@@ -11,12 +11,6 @@ cp -R assembly/assembly-main/target/eclipse-che-${che_version}/eclipse-che-${che
 cd ${BUILD_DIR}
 rm -rf che
 mv finalche che
-mkdir che/template_projects
-cd che/template_projects
-locations=`cat ${BUILD_DIR}/che/templates/samples.json | awk '/"location"/ { print $2 }' | sed 's/"\(.*\)",/\1/'`
-for location in $locations; do
-  git clone $location
-done;
 cd -
 cleanup_java
 

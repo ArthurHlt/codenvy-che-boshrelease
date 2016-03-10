@@ -6,6 +6,23 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/che-inject/helpers/ctl_setup.sh 'che-inject'
 
+LINUX_USER=vcap
+LINUX_GROUPS=$(groups "${LINUX_USER}")
+LINUX_UID=$(id -u "${LINUX_USER}")
+
+
+if echo "${LINUX_GROUPS}" | grep "docker" &>/dev/null; then
+    echo "Already in docker group, skipped."
+else
+    groupadd docker
+    usermod -a -G docker vcap
+fi
+
+mkdir -p /var/vcap/store/workspaces
+chown -R vcap:vcap /var/vcap/store/workspaces
+
+mkdir -p /var/vcap/store/temp/local-storage
+chown -R vcap:vcap /var/vcap/store/temp/local-storage
 
 case $1 in
 
@@ -19,12 +36,20 @@ case $1 in
         cp /var/vcap/packages/che/che/lib/ws-agent.zip /var/vcap/store/lib/ws-agent.zip
         cp -R /var/vcap/packages/che/che/lib/terminal /var/vcap/store/lib/terminal
         cp -R /var/vcap/packages/che/che/template_projects /var/vcap/store/template_projects
-        chown -R vcap:vcap /var/vcap/store/lib
         chown -R vcap:vcap /var/vcap/store/template_projects
+        chown -R vcap:vcap /var/vcap/store/lib
         rm -Rf /var/vcap/packages/che/che
     fi
+    folder_parent="/var/vcap/store/workspaces"
     while true; do
-        sleep 2
+        for folder in `ls -d $folder_parent/*`
+        do
+            current_user=$( stat -f '%Su' $folder )
+            if [ "$current_user"="root" ]; then
+                chown -R vcap:vcap "$folder"
+            fi
+        done
+        sleep 1
     done
     ;;
 

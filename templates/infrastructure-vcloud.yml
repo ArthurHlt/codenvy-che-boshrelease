@@ -91,8 +91,8 @@ networks:
       - 10.203.7.60-10.203.7.253
       # Static IP pool that can be consumed by jobs when explicitly assigned to one.
       static:
-      - &discovery_static_ip 10.203.7.51
       - &discovery_static_ip 10.203.7.52
+      - &discovery_static_ip 10.203.7.53
 
       # Implicit dynamic Ips for jobs including compilation jobs : 10.203.6.109
       gateway: 10.203.7.254

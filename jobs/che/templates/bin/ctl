@@ -18,8 +18,12 @@ ln -sf /var/vcap/packages/docker-che/bin/docker /usr/bin/docker
 
 mkdir -p /var/vcap/store/workspaces
 mkdir -p /var/vcap/store/temp/local-storage
+mkdir -p /var/vcap/store/template_projects
 
+cp /var/vcap/packages/che/che/templates/* /var/vcap/store/template_projects
 cp /var/vcap/jobs/che/data/logback.xml /var/vcap/packages/che/che/conf/logback.xml
+
+chown -R vcap:vcap /var/vcap/store/template_projects
 
 LINUX_USER=vcap
 LINUX_GROUPS=$(groups "${LINUX_USER}")
@@ -37,15 +41,13 @@ fi
 chown -R vcap:vcap /var/vcap/store/workspaces
 chown -R vcap:vcap /var/vcap/store/temp/local-storage
 chown -R vcap:vcap /var/vcap/packages/che/che
-export JAVA_OPTS="-Xms256m -Xmx1024m -Djava.security.egd=file:/dev/./urandom -Dhost.projects.root=/var/vcap/store/template_projects"
+export JAVA_OPTS="-Xms256m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
 
 if [ ! -f /var/vcap/store/lib/ws-agent.zip ]; then
     mkdir -p /var/vcap/store/lib
     cp /var/vcap/packages/che/che/lib/ws-agent.zip /var/vcap/store/lib/ws-agent.zip
     cp -R /var/vcap/packages/che/che/lib/terminal /var/vcap/store/lib/terminal
-    cp -R /var/vcap/packages/che/che/template_projects /var/vcap/store/template_projects
     chown -R vcap:vcap /var/vcap/store/lib
-    chown -R vcap:vcap /var/vcap/store/template_projects
 fi
 
 ensure_no_more_tomcat() {
@@ -64,7 +66,6 @@ case $1 in
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
-    #exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh --skip:uid \
     exec chpst -u vcap:vcap /var/vcap/packages/che/che/bin/che.sh --debug -r:${DOCKER_HOST_IP} \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
