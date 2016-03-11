@@ -23,6 +23,8 @@ jobs:
     resource_pool: small_z1
     persistent_disk: 65536
     properties:
+      che:
+        ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
       env:
         http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
         https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
@@ -40,6 +42,9 @@ jobs:
     persistent_disk: 65536
     properties:
       che:
+        env:
+          http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+          https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
         docker:
           host:
             ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))

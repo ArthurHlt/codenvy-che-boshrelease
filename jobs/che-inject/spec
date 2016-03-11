@@ -10,6 +10,6 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-  che.fake:
+  che.ip:
     description:
-      This only do not have error when colocating jobs. see https://github.com/cloudfoundry/bosh/issues/281
+      Specify on what ip che is available. This is needed or che couldn't reach docker

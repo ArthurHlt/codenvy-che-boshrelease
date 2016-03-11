@@ -37,6 +37,7 @@ case $1 in
         cp -R /var/vcap/packages/che/che/lib/terminal /var/vcap/store/lib/terminal
         cp -R /var/vcap/packages/che/che/template_projects /var/vcap/store/template_projects
         chown -R vcap:vcap /var/vcap/store/template_projects
+        echo "" > /var/vcap/store/workspaces/noerror
         chown -R vcap:vcap /var/vcap/store/lib
         rm -Rf /var/vcap/packages/che/che
     fi

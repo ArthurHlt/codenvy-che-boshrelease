@@ -39,3 +39,7 @@ properties:
   che.github.clientSecret:
     description:
       (Optional) The client secret to bind che to github. If set che.github.clientId is needed
+  che.env.http_proxy:
+    description: "HTTP proxy that che should use"
+  che.env.https_proxy:
+    description: "HTTPS proxy that che should use"

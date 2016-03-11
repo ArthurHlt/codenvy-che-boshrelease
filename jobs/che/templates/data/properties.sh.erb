@@ -11,6 +11,16 @@ export JOB_FULL="$NAME/$JOB_INDEX"
 export DOCKER_HOST_IP=<%= properties.che.docker.host.ip%>
 export DOCKER_HOST_PORT=<%= properties.che.docker.host.port%>
 export DOCKER_HOST=tcp://${DOCKER_HOST_IP}:${DOCKER_HOST_PORT}
+
+export HTTP_PROXIES_OPTION=""
+<% if properties.che.env.http_proxy %>
+export HTTP_PROXIES_OPTION="-Dhttp.proxyHost=<%= properties.che.env.http_proxy.split(":").first %> -Dhttp.proxyPort=<%= properties.che.env.http_proxy.split(":").last %>"
+<% end %>
+
+<% if properties.che.env.https_proxy %>
+export HTTP_PROXIES_OPTION="-Dhttps.proxyHost=<%= properties.che.env.http_proxy.split(":").first %> -Dhttps.proxyPort=<%= properties.che.env.http_proxy.split(":").last %>"
+<% end %>
+
 <% if properties.che.external_ip %>
 export CHE_EXTERNAL_IP=<%= properties.che.external_ip %>
 <% else %>
@@ -26,3 +36,6 @@ export CHE_EXTERNAL_SCHEME=https
 export CHE_EXTERNAL_SCHEME=http
 <% end %>
 
+<% if defined?(properties.docker.tcp_port) && properties.docker.tcp_port %>
+iptables -I INPUT -p tcp ! -s ${CHE_EXTERNAL_IP} --dport <%= properties.docker.tcp_port %> -j REJECT
+<% end %>

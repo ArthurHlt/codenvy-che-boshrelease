@@ -41,7 +41,7 @@ fi
 chown -R vcap:vcap /var/vcap/store/workspaces
 chown -R vcap:vcap /var/vcap/store/temp/local-storage
 chown -R vcap:vcap /var/vcap/packages/che/che
-export JAVA_OPTS="-Xms256m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
+export JAVA_OPTS="-Xms256m -Xmx1024m -Djava.security.egd=file:/dev/./urandom ${HTTP_PROXIES_OPTION}"
 
 if [ ! -f /var/vcap/store/lib/ws-agent.zip ]; then
     mkdir -p /var/vcap/store/lib
