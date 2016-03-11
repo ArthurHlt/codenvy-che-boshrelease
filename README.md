@@ -1,7 +1,7 @@
 Eclipse-che BOSH release
 =======================
 
-[Che](https://eclipse.org/che/) Eclipse Che is a developer workspace server and cloud IDE running on BOSH in AWS, vSphere, GCE, Azure, OpenStack and more.
+[Eclipse Che](https://eclipse.org/che/) is a developer workspace server and cloud IDE running on BOSH in AWS, vSphere, GCE, Azure, OpenStack and more.
 
 ![sample1](https://eclipse.org/che/images/hero-home.png)
 
