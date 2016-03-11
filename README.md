@@ -5,6 +5,8 @@ Eclipse-che BOSH release
 
 ![sample1](https://eclipse.org/che/images/hero-home.png)
 
+**Note**: Che packaged here is a release candidate.
+
 Requirements
 ------------
 
@@ -21,6 +23,64 @@ You will see two types of template:
 - **Default**: Run che and docker in separate VM this will help you to scale the number of docker daemons (you could use [docker swarm](https://docs.docker.com/swarm/overview/) which is configurable in docker-boshrelease, see: https://github.com/cloudfoundry-community/docker-boshrelease/blob/master/SWARM.md )
 
 In this folder, only examples are present update them for your own IaaS and deploy it with bosh.
+
+## Usage
+
+To use this bosh release, first upload it to your bosh:
+
+```
+bosh target BOSH_HOST
+git clone https://github.com/cloudfoundry-community/eclipse-che-boshrelease.git
+cd eclipse-che-boshrelease
+bosh upload release releases/eclipse-che/eclipse-che-5.yml
+```
+
+For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
+
+```
+templates/make_manifest warden
+bosh -n deploy
+```
+
+For AWS EC2, create a single VM:
+
+```
+templates/make_manifest aws-ec2
+bosh -n deploy
+```
+
+### Override security groups
+
+For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
+
+Create a file `my-networking.yml`:
+
+```yaml
+networks:
+  - name: eclipse-che1
+    type: dynamic
+    cloud_properties:
+      security_groups:
+        - eclipse-che
+```
+
+Where `- eclipse-che` means you wish to use an existing security group called `eclipse-che`.
+
+You now suffix this file path to the `make_manifest` command:
+
+```
+templates/make_manifest openstack-nova my-networking.yml
+bosh -n deploy
+```
+
+### Development
+
+As a developer of this release, create new releases and upload them:
+
+```
+bosh create release --force && bosh -n upload release
+```
+
 
 Available properties
 --------------------
