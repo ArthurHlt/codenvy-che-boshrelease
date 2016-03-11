@@ -19,3 +19,5 @@ You will see two types of template:
 
 - **1VM**: Let you run che and docker in one VM
 - **Default**: Run che and docker in separate VM this will help you to scale the number of docker daemons (you could use [docker swarm](https://docs.docker.com/swarm/overview/) which is configurable in docker-boshrelease, see: https://github.com/cloudfoundry-community/docker-boshrelease/blob/master/SWARM.md )
+
+In this folder, only examples are present update them for your own IaaS and deploy it with bosh.
