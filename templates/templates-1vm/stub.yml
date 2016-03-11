@@ -1,0 +1,18 @@
+---
+meta:
+  environment: NAME
+  dns_root: microbosh
+  security_groups:
+    - eclipse_che
+  stemcell:
+    name: STEMCELL
+
+director_uuid: PLACEHOLDER-DIRECTOR-UUID
+
+releases:
+  - name: eclipse-che
+    version: latest
+  - name: docker
+    version: latest
+  - name: nginx
+    version: latest

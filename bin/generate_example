@@ -1,0 +1,71 @@
+#!/bin/bash
+
+set -e
+
+template_prefix="eclipse-che"
+STEMCELL_OS=${STEMCELL_OS:-ubuntu}
+
+fail() {
+	echo >&2 $*
+}
+WD=`pwd`
+infrastructures=( "aws-ec2" "vcloud" "warden" "openstack" )
+function get_stemcell {
+    infrastructure=$1
+    stemcell_os=$2
+    case "${infrastructure}/${stemcell_os}" in
+      (warden/*)       STEMCELL="bosh-warden-boshlite-ubuntu-trusty-go_agent" ;;
+      (aws-ec2/ubuntu) STEMCELL="bosh-aws-xen-ubuntu-trusty-go_agent" ;;
+      (aws-ec2/centos) STEMCELL="bosh-aws-xen-centos-7-go_agent" ;;
+      (vcloud/*) STEMCELL="bosh-vcloud-esxi-ubuntu-trusty-go_agent" ;;
+      (openstack/*) STEMCELL="bosh-openstack-kvm-ubuntu-trusty-go_agent" ;;
+      (cloudstack/*) STEMCELL="bosh-cloudstack-kvm-ubuntu-trusty-go_agent" ;;
+      (*)
+        fail "Invalid infrastructure or OS specified."
+        exit 1
+        ;;
+    esac
+    echo $STEMCELL
+    shift
+}
+
+DIRECTOR_UUID="change-with-your-uuid"
+
+for infrastructure in ${infrastructures[@]}
+do
+    STEMCELL=`get_stemcell $infrastructure $STEMCELL_OS`
+    NAME=$template_prefix-$infrastructure
+    templates="${WD}/templates"
+    release=$templates/..
+    tmpdir=$release/manifest-examples
+
+    mkdir -p $tmpdir
+    cp $templates/stub.yml $tmpdir/stub-with-uuid.yml
+    perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $tmpdir/stub-with-uuid.yml
+    perl -pi -e "s/NAME/$NAME/g" $tmpdir/stub-with-uuid.yml
+    perl -pi -e "s/STEMCELL/$STEMCELL/g" $tmpdir/stub-with-uuid.yml
+
+    if ! [ -x "$(command -v spruce)" ]; then
+      echo 'spruce is not installed. Please download at https://github.com/geofffranks/spruce/releases' >&2
+    fi
+
+    spruce merge --prune meta \
+      $templates/deployment.yml \
+      $templates/jobs.yml \
+      $templates/infrastructure-${infrastructure}.yml \
+      $tmpdir/stub-with-uuid.yml \
+  $* > $tmpdir/$NAME-manifest.yml
+    echo "Exemple for ${NAME} generated."
+
+    spruce merge --prune meta \
+      $templates/templates-1vm/deployment.yml \
+      $templates/templates-1vm/jobs.yml \
+      $templates/templates-1vm/infrastructure-${infrastructure}.yml \
+      $tmpdir/stub-with-uuid.yml \
+  $* > $tmpdir/$NAME-1vm-manifest.yml
+    echo "Exemple for ${NAME}-1vm generated."
+done
+echo ""
+echo "Generation finished."
+
+

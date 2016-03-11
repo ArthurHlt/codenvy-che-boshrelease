@@ -13,20 +13,6 @@ update:
   update_watch_time: 1000-30000
 
 jobs:
-  - name: che_docker_z1
-    networks:
-      - name: eclipse_che1
-        default: [dns, gateway]
-        static_ips:
-          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
-    instances: 1
-    resource_pool: small_z1
-    properties:
-      che:
-        ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
-      docker:
-        tcp_address: 0.0.0.0
-        tcp_port: 2376
   - name: che_z1
     networks:
       - name: eclipse_che1
@@ -39,8 +25,11 @@ jobs:
       che:
         docker:
           host:
-            ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
+            ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
             port: 2376
+        docker:
+          tcp_address: 0.0.0.0
+          tcp_port: 2376
 
 
 compilation:
@@ -61,4 +50,3 @@ networks:
     gateway: 10.244.51.1
     static:
       - 10.244.51.2
-      - 10.244.51.3

@@ -1,0 +1,18 @@
+---
+meta:
+  environment: eclipse-che-openstack
+  dns_root: microbosh
+  security_groups:
+    - eclipse_che
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+
+director_uuid: change-with-your-uuid
+
+releases:
+  - name: eclipse-che
+    version: latest
+  - name: docker
+    version: latest
+  - name: nginx
+    version: latest

@@ -1,0 +1,77 @@
+compilation:
+  cloud_properties:
+    cpu: 1
+    disk: 8096
+    ram: 1048
+  network: eclipse_che1
+  reuse_compilation_vms: true
+  workers: 1
+director_uuid: change-with-your-uuid
+jobs:
+- instances: 1
+  name: che_z1
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: eclipse_che1
+    static_ips:
+    - 10.203.7.52
+  persistent_disk: 65536
+  properties:
+    che:
+      docker:
+        host:
+          ip: 10.203.7.52
+          port: 2376
+    docker:
+      tcp_address: 0.0.0.0
+      tcp_port: 2376
+  resource_pool: small_z1
+  templates:
+  - name: che
+    release: eclipse-che
+  - name: docker
+    release: docker
+name: eclipse-che-vcloud
+networks:
+- name: eclipse_che1
+  subnets:
+  - cloud_properties:
+      name: NET_APPS_SERV
+    gateway: 10.203.7.254
+    name: eclipse_che1
+    range: 10.203.6.0/23
+    reserved:
+    - 10.203.6.1-10.203.6.255
+    - 10.203.7.0-10.203.7.50
+    - 10.203.7.60-10.203.7.253
+    static:
+    - 10.203.7.52
+  type: manual
+properties: {}
+releases:
+- name: eclipse-che
+  version: latest
+- name: docker
+  version: latest
+- name: nginx
+  version: latest
+resource_pools:
+- cloud_properties:
+    cpu: 2
+    disk: 40240
+    ram: 4096
+  name: small_z1
+  network: eclipse_che1
+  size: 2
+  stemcell:
+    name: bosh-vcloud-esxi-ubuntu-trusty-go_agent
+    version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-30000
+  max_in_flight: 50
+  serial: false
+  update_watch_time: 1000-30000
+

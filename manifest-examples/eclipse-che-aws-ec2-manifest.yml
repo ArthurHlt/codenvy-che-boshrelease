@@ -1,0 +1,83 @@
+compilation:
+  cloud_properties:
+    instance_type: m3.medium
+  network: eclipse_che1
+  reuse_compilation_vms: true
+  workers: 6
+director_uuid: change-with-your-uuid
+jobs:
+- instances: 1
+  name: che_z1
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: eclipse_che1
+    static_ips:
+    - 10.100.0.1
+  persistent_disk: 65536
+  properties:
+    che:
+      docker:
+        host:
+          ip: 10.100.0.2
+          port: 2376
+  resource_pool: small_z1
+  templates:
+  - name: che
+    release: eclipse-che
+- instances: 1
+  name: che_docker_z1
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: eclipse_che1
+    static_ips:
+    - 10.100.0.2
+  persistent_disk: 65536
+  properties:
+    che:
+      ip: 10.100.0.1
+    docker:
+      tcp_address: 0.0.0.0
+      tcp_port: 2376
+  resource_pool: small_z1
+  templates:
+  - name: che-inject
+    release: eclipse-che
+  - name: docker
+    release: docker
+name: eclipse-che-aws-ec2
+networks:
+- cloud_properties: {}
+  name: floating
+  type: vip
+- cloud_properties:
+    security_groups:
+    - eclipse_che
+  name: eclipse_che1
+  type: dynamic
+properties: {}
+releases:
+- name: eclipse-che
+  version: latest
+- name: docker
+  version: latest
+- name: nginx
+  version: latest
+resource_pools:
+- cloud_properties:
+    instance_type: m3.medium
+  name: small_z1
+  network: eclipse_che1
+  stemcell:
+    name: bosh-aws-xen-ubuntu-trusty-go_agent
+    version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-60000
+  max_in_flight: 50
+  serial: false
+  update_watch_time: 1000-60000
+

@@ -11,14 +11,6 @@ jobs:
     templates:
     - name: che
       release: eclipse-che
-    instances: 1
-    persistent_disk: 0
-    resource_pool: small_z1
-    networks: (( param "Please configure the networks for this job" ))
-  - name: che_docker_z1
-    templates:
-    - name: che-inject
-      release: eclipse-che
     - name: docker
       release: docker
     instances: 1

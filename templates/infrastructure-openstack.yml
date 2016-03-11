@@ -1,0 +1,104 @@
+---
+meta:
+  environment: eclipse-che-warden
+
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 50
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+
+jobs:
+  - name: che_docker_z1
+    networks:
+      - name: eclipse_che1
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
+      - name: public
+        static_ips:
+        - 89.35.21.252
+    instances: 1
+    resource_pool: small_z1
+    persistent_disk_pool: docker_disk_pool
+    properties:
+      che:
+        ip: 89.35.21.251
+      docker:
+        tcp_address: 0.0.0.0
+        tcp_port: 2376
+  - name: che_z1
+    networks:
+      - name: eclipse_che1
+        default: [dns, gateway]
+        static_ips:
+          - (( grab networks.eclipse_che1.subnets.eclipse_che1.static.0 ))
+      - name: public
+        static_ips:
+        - 89.35.21.251
+    instances: 1
+    resource_pool: small_z1
+    properties:
+      che:
+        docker:
+          host:
+            ip: 89.35.21.252
+            port: 2376
+
+
+compilation:
+  reuse_compilation_vms: true #  <-- should use true when cpi is ok
+  workers: 1  # <-- set 2 vms for quicker parallel jobs compilation
+  network: dynamic
+  cloud_properties:
+    instance_type: n2.cw.standard-1
+    disk: 20000
+
+resource_pools:
+  - name: small_z1
+    network: dynamic
+    stemcell:
+      name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+      version: latest
+    cloud_properties:
+      instance_type: n2.cw.standard-1
+      disk: 20000
+      #security_groups: [bosh,public-https]
+
+disk_pools:
+  - name: docker_disk_pool
+    disk_size: 10240
+
+networks:
+- name: eclipse_che1
+  type: manual
+  subnets:
+  - name: eclipse_che1
+    range: 10.100.0.0/24 # <--- Replace with a private subnet CIDR
+    gateway: 10.100.0.1 # <--- Replace with a private subnet's gateway
+    #dns: [185.23.94.244,185.23.94.245] # <--- Replace with your DNS
+    reserved:
+    - 10.100.0.2 - 10.100.0.10
+    - 10.100.0.20- 10.100.0.254
+    static:
+    - 10.100.0.11
+    - 10.100.0.12
+    cloud_properties:
+      net_id: 25ac6df-a58ee-356ab-afcb-c26fb033bace
+- name: dynamic
+  type: dynamic
+  cloud_properties:
+    net_id: 25ac6df-a58ee-356ab-afcb-c26fb033bace
+    security_groups: [bosh,default]
+- name: public
+  type: vip
+  cloud_properties:
+    security_groups: [public-https,default]
+- name: public-che-node
+  type: vip
+  cloud_properties:
+    security_groups: [public-che-node,default]

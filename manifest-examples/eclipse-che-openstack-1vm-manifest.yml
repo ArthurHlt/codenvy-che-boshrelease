@@ -1,0 +1,98 @@
+compilation:
+  cloud_properties:
+    disk: 20000
+    instance_type: n2.cw.standard-1
+  network: dynamic
+  reuse_compilation_vms: true
+  workers: 1
+director_uuid: change-with-your-uuid
+disk_pools:
+- disk_size: 10240
+  name: docker_disk_pool
+jobs:
+- instances: 1
+  name: che_z1
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: eclipse_che1
+    static_ips:
+    - 10.100.0.11
+  - name: public
+    static_ips:
+    - 89.35.21.251
+  persistent_disk: 0
+  properties:
+    che:
+      docker:
+        host:
+          ip: 89.35.21.251
+          port: 2376
+    docker:
+      tcp_address: 0.0.0.0
+      tcp_port: 2376
+  resource_pool: small_z1
+  templates:
+  - name: che
+    release: eclipse-che
+  - name: docker
+    release: docker
+name: eclipse-che-openstack
+networks:
+- name: eclipse_che1
+  subnets:
+  - cloud_properties:
+      net_id: 25ac6df-a58ee-356ab-afcb-c26fb033bace
+    gateway: 10.100.0.1
+    name: eclipse_che1
+    range: 10.100.0.0/24
+    reserved:
+    - 10.100.0.2 - 10.100.0.10
+    - 10.100.0.20- 10.100.0.254
+    static:
+    - 10.100.0.11
+  type: manual
+- cloud_properties:
+    net_id: 25ac6df-a58ee-356ab-afcb-c26fb033bace
+    security_groups:
+    - bosh
+    - default
+  name: dynamic
+  type: dynamic
+- cloud_properties:
+    security_groups:
+    - public-https
+    - default
+  name: public
+  type: vip
+- cloud_properties:
+    security_groups:
+    - public-che-node
+    - default
+  name: public-che-node
+  type: vip
+properties: {}
+releases:
+- name: eclipse-che
+  version: latest
+- name: docker
+  version: latest
+- name: nginx
+  version: latest
+resource_pools:
+- cloud_properties:
+    disk: 20000
+    instance_type: n2.cw.standard-1
+  name: small_z1
+  network: dynamic
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-30000
+  max_in_flight: 50
+  serial: false
+  update_watch_time: 1000-30000
+

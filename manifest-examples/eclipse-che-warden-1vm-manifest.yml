@@ -1,0 +1,62 @@
+compilation:
+  cloud_properties:
+    name: random
+  network: eclipse_che1
+  reuse_compilation_vms: true
+  workers: 6
+director_uuid: change-with-your-uuid
+jobs:
+- instances: 1
+  name: che_z1
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: eclipse_che1
+    static_ips:
+    - 10.244.51.2
+  persistent_disk: 0
+  properties:
+    che:
+      docker:
+        tcp_address: 0.0.0.0
+        tcp_port: 2376
+  resource_pool: small_z1
+  templates:
+  - name: che
+    release: eclipse-che
+  - name: docker
+    release: docker
+name: eclipse-che-warden
+networks:
+- name: eclipse_che1
+  subnets:
+  - gateway: 10.244.51.1
+    name: eclipse_che1
+    range: 10.244.51.0/24
+    static:
+    - 10.244.51.2
+  type: manual
+properties: {}
+releases:
+- name: eclipse-che
+  version: latest
+- name: docker
+  version: latest
+- name: nginx
+  version: latest
+resource_pools:
+- cloud_properties:
+    name: random
+  name: small_z1
+  network: eclipse_che1
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-30000
+  max_in_flight: 50
+  serial: false
+  update_watch_time: 1000-30000
+

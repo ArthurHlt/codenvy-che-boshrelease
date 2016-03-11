@@ -9,21 +9,6 @@ meta:
     version: latest
 
 jobs:
-  - name: che_docker_z1
-    networks:
-      - name: eclipse_che1
-        default: [dns, gateway]
-        static_ips:
-          - 10.100.0.2
-    instances: 1
-    resource_pool: small_z1
-    persistent_disk: 65536
-    properties:
-      che:
-        ip: 10.100.0.1
-      docker:
-        tcp_address: 0.0.0.0
-        tcp_port: 2376
   - name: che_z1
     networks:
       - name: eclipse_che1
@@ -37,8 +22,11 @@ jobs:
       che:
         docker:
           host:
-            ip: 10.100.0.2
+            ip: 10.100.0.1
             port: 2376
+      docker:
+        tcp_address: 0.0.0.0
+        tcp_port: 2376
 
 compilation:
   cloud_properties:
