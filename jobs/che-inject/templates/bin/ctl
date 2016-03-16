@@ -45,12 +45,12 @@ case $1 in
     while true; do
         for folder in `ls -d $folder_parent/*`
         do
-            current_user=$( stat -f '%Su' $folder )
-            if [ "$current_user"="root" ]; then
+            current_user=$( stat -c '%U' $folder )
+            if [ "$current_user" = "root" ]; then
                 chown -R vcap:vcap "$folder"
             fi
         done
-        sleep 1
+        sleep 0.1
     done
     ;;
 
