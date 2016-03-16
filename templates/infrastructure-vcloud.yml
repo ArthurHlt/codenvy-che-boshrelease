@@ -28,6 +28,9 @@ jobs:
       docker:
         tcp_address: 0.0.0.0
         tcp_port: 2376
+      env:
+        http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+        https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
   - name: che_z1
     networks:
       - name: eclipse_che1
@@ -43,6 +46,9 @@ jobs:
           host:
             ip: (( grab networks.eclipse_che1.subnets.eclipse_che1.static.1 ))
             port: 2376
+        env:
+          http_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
+          https_proxy: "http://elpaaso-squid-ige.internal-qa.paas:3128"
 
 compilation:
   cloud_properties:

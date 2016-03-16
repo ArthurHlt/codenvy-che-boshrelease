@@ -11,5 +11,7 @@ templates:
 
 properties:
   che.ip:
-    description:
-      Specify on what ip che is available. This is needed or che couldn't reach docker
+    description: "Specify on what ip che is available. This is needed or che couldn't reach docker"
+  che.iptables:
+    description: "Enable Che's addition of iptables rules"
+    default: true

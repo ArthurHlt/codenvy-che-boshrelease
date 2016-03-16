@@ -43,6 +43,7 @@ Available properties
 ### Job che-inject
 
 - **che.ip**: Specify on what ip che is available. This is needed or che couldn't reach docker
+- **che.iptables**: Enable Che's addition of iptables rules
 
 ## Usage
 
