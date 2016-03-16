@@ -30,9 +30,9 @@ packages:
   dependencies: []
 jobs:
 - name: che
-  version: ed8cffc89c5e9654821434f6144956f145a82ddc
-  fingerprint: ed8cffc89c5e9654821434f6144956f145a82ddc
-  sha1: a275f15aec3e2ca641ee6c0bdeadcdc39cba24e3
+  version: 4225786bed5d4cef838b05478ac4450ce9502fb3
+  fingerprint: 4225786bed5d4cef838b05478ac4450ce9502fb3
+  sha1: 83d107f71e88d16353cdd157d4e5a30c2576867d
 - name: che-inject
   version: 6fdd27e892d9702a2a4d0cda38ca0e814176de18
   fingerprint: 6fdd27e892d9702a2a4d0cda38ca0e814176de18
@@ -41,7 +41,7 @@ license:
   version: 5058351c0864daf2c8a7448f883b974a3082cec7
   fingerprint: 5058351c0864daf2c8a7448f883b974a3082cec7
   sha1: aec6eadcc408b4bf9f7822b9b0c91429dd419d71
-commit_hash: 40f6f477
+commit_hash: 6771010b
 uncommitted_changes: true
 name: eclipse-che
 version: '6'
